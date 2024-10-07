@@ -17,4 +17,11 @@ public class RoleEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ERole roleName;
 
+    @OneToOne(mappedBy = "role")
+    private UserEntity user;
+
+    public ERole getRoleName() {
+        return this.roleName;
+    }
+
 }
