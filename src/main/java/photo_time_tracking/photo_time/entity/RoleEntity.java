@@ -13,6 +13,7 @@ import java.util.Set;
 @Table(name = "role")
 @Data
 @Entity
+
 // TODO: FIX LOMBOK NOT CAN CREATE BUILDER, GETTER, SETTER (CONTRUCTOR...)
 public class RoleEntity extends BaseEntity {
 

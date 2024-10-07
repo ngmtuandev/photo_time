@@ -26,8 +26,15 @@ public class UserEntity extends BaseEntity {
     private boolean status;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id") // Khóa ngoại tham chiếu tới bảng role
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
     private RoleEntity role;
+
+    @ManyToOne
+    @JoinColumn(name = "store_id", referencedColumnName = "id")
+    private StoreEntity store;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private RecordTransactionEntity recordTransaction;
 
     public RoleEntity getRole() {
         return this.role;
@@ -45,14 +52,26 @@ public class UserEntity extends BaseEntity {
         return this.description;
     }
 
+    public RecordTransactionEntity getRecordTransaction() {
+        return recordTransaction;
+    }
+
     public Boolean getStatus() {
         return this.status;
+    }
+
+    public StoreEntity getStore() {
+        return this.store;
     }
 
     // TODO: FIX (LAMBOK) AUTO CREATE CONTRUCTOR, GETTER, SETTER
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setRecordTransaction(RecordTransactionEntity recordTransaction) {
+        this.recordTransaction = recordTransaction;
     }
 
     public void setPassword(String password) {
@@ -69,5 +88,9 @@ public class UserEntity extends BaseEntity {
 
     public void setRole(RoleEntity role) {
         this.role = role;
+    }
+
+    public void setStore(StoreEntity store) {
+        this.store = store;
     }
 }
