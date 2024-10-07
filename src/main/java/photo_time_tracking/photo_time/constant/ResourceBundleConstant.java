@@ -12,6 +12,7 @@ public class ResourceBundleConstant {
     public static final String RL_003 = "RL_003";
     public static final String RL_004 = "RL_004";
     public static final String RL_005 = "RL_005";
+    public static final String RL_006 = "RL_006";
 
     // User
     public static final String USR_001 = "USR_001";
@@ -19,4 +20,7 @@ public class ResourceBundleConstant {
     public static final String USR_003 = "USR_003";
     public static final String USR_004 = "USR_004";
     public static final String USR_005 = "USR_005";
+    public static final String USR_006 = "USR_006";
+    public static final String USR_007 = "USR_007";
+    public static final String USR_008 = "USR_008";
 }

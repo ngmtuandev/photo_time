@@ -9,7 +9,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,13 +18,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import photo_time_tracking.photo_time.constant.SystemConstant;
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true) // security strict
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
+
     @Autowired
     CustomUserDetailService customUserDetailService;
 
-    private static final String USER = "ROLE_USER";
-    private static final String ADMIN = "ROLE_ADMIN";
+    private static final String USER = "USER";
+    private static final String ADMIN = "ADMIN";
 
     private static final String[] permitAllApis = {
             "/api/auth/**",
@@ -36,7 +38,6 @@ public class WebSecurityConfig {
             "/swagger-ui/**",
             "/swagger-ui.html"
     };
-
 
     private static final String[] anyAuthorityAdminApis = {
             SystemConstant.API + SystemConstant.VERSION_1 + SystemConstant.API_ADMIN + SystemConstant.API_ALL,
@@ -61,7 +62,6 @@ public class WebSecurityConfig {
 
     @Bean
     AuthenticationProvider authenticationProvider() {
-        System.out.println("authenticationProvider");
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(customUserDetailService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -69,32 +69,20 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationsFilter jwtAuthenticationsFilter) throws Exception {
-
-        System.out.println("security filter - Web security Config");
-
-        http.csrf(AbstractHttpConfigurer::disable)
-//                .cors(corsConfigurer -> {
-//                    CorsConfigurationSource source = request -> {
-//                        CorsConfiguration config = new CorsConfiguration();
-//                        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-//                        config.setAllowedHeaders(List.of("*"));
-//                        return config;
-//                    };
-//                    corsConfigurer.configurationSource(source);
-//                })
-                .cors(corsConfigurer -> corsConfigurer.disable())
-                .authorizeHttpRequests(req -> req
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.disable())
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers(permitAllApis).permitAll()
                         .requestMatchers(apiDoc).permitAll()
-//                        .requestMatchers(anyAuthorityUserApis).hasAnyAuthority(USER)
-//                        .requestMatchers(anyAuthorityAdminApis).hasAnyAuthority(ADMIN)
-                        .requestMatchers(anyAuthorityAdminApis).permitAll()
-                        .requestMatchers("http://localhost:1001/care-health/api/v1/public/user/login").permitAll()
-                        .anyRequest()
-                        .permitAll())
+                        .requestMatchers(anyAuthorityAdminApis).hasRole(ADMIN)
+                        .requestMatchers("/api/v1/user/**").hasAnyRole(USER, ADMIN)
+                        .anyRequest().authenticated()
+                )
+                // no save token ==> stateless
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthenticationsFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

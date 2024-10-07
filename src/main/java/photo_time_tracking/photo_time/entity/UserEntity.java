@@ -12,7 +12,7 @@ import lombok.*;
 @Data
 @Entity
 public class UserEntity extends BaseEntity {
-    @Column(name = "userName", unique = true, nullable = false)
+    @Column(name = "user_name", unique = true, nullable = false)
     private String userName;
 
     @Column(name = "password", nullable = false)
@@ -25,8 +25,8 @@ public class UserEntity extends BaseEntity {
     @Column(name = "status")
     private boolean status;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "roleId", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "role_id", referencedColumnName = "id") // Khóa ngoại tham chiếu tới bảng role
     private RoleEntity role;
 
     public RoleEntity getRole() {
@@ -49,5 +49,25 @@ public class UserEntity extends BaseEntity {
         return this.status;
     }
 
+    // TODO: FIX (LAMBOK) AUTO CREATE CONTRUCTOR, GETTER, SETTER
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public void setRole(RoleEntity role) {
+        this.role = role;
+    }
 }
