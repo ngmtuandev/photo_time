@@ -12,7 +12,7 @@ import photo_time_tracking.photo_time.enums.ETypeTransaction;
 @Data
 @Entity
 
-// TODO: FIX LOMBOK NOT CAN CREATE BUILDER, GETTER, SETTER (CONTRUCTOR...)
+// TODO: FIX LOMBOK NOT CAN CREATE BUILDER, GETTER, SETTER (CONSTRUCTOR...)
 public class RecordTransactionEntity extends BaseEntity {
 
     @Column(name = "store_name", nullable = false)

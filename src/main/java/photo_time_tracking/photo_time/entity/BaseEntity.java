@@ -25,7 +25,7 @@ import java.util.UUID;
 @EnableJpaAuditing
 @EntityListeners(AuditingEntityListener.class)
 
-// TODO: FIX LOMBOK NOT CAN CREATE BUILDER (CONTRUCTOR...)
+// TODO: FIX LOMBOK NOT CAN CREATE BUILDER (CONSTRUCTOR...)
 public class BaseEntity {
 
     @Id

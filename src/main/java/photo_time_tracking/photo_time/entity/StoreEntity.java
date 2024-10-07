@@ -13,7 +13,7 @@ import java.util.Set;
 @Data
 @Entity
 
-// TODO: FIX LOMBOK NOT CAN CREATE BUILDER, GETTER, SETTER (CONTRUCTOR...)
+// TODO: FIX LOMBOK NOT CAN CREATE BUILDER, GETTER, SETTER (CONSTRUCTOR...)
 public class StoreEntity extends BaseEntity{
 
     @Column(name = "store_name", nullable = false)
