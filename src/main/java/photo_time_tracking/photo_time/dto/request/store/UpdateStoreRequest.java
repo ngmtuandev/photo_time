@@ -1,10 +1,6 @@
 package photo_time_tracking.photo_time.dto.request.store;
 
-import lombok.Data;
-
-@Data
-// TODO: FIX ERROR LOMBOK NOT USE AUTO CONSTRUCTOR
-public class CreateStoreRequest {
+public class UpdateStoreRequest {
 
     private String storeName;
 

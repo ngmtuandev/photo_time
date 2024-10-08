@@ -1,5 +1,4 @@
 package photo_time_tracking.photo_time.controller.private_api;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

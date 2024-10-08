@@ -1,11 +1,9 @@
 package photo_time_tracking.photo_time.service.implement_service;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +13,7 @@ import photo_time_tracking.photo_time.constant.ResourceBundleConstant;
 import photo_time_tracking.photo_time.constant.SystemConstant;
 import photo_time_tracking.photo_time.dto.request.user.LoginRequest;
 import photo_time_tracking.photo_time.dto.request.user.RegisterRequest;
+import photo_time_tracking.photo_time.dto.request.user.UpdateUserRequest;
 import photo_time_tracking.photo_time.dto.response.user.UserResponse;
 import photo_time_tracking.photo_time.entity.RoleEntity;
 import photo_time_tracking.photo_time.entity.UserEntity;
@@ -23,9 +22,9 @@ import photo_time_tracking.photo_time.repositories.IUserRepo;
 import photo_time_tracking.photo_time.service.interface_service.IUserService;
 import photo_time_tracking.photo_time.utils.BaseAmenityUtil;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -124,4 +123,40 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @Override
+    public UserResponse getInfo(UUID idUser) {
+
+        Optional<UserEntity> findInfo = userRepo.findById(idUser);
+        if (findInfo.isPresent()) {
+            return new UserResponse(ResourceBundleConstant.USR_004, SystemConstant.STATUS_CODE_SUCCESS, getMessageBundle(ResourceBundleConstant.USR_004), findInfo);
+        }
+        return new UserResponse(ResourceBundleConstant.USR_003, SystemConstant.STATUS_CODE_BAD_REQUEST, getMessageBundle(ResourceBundleConstant.USR_003));
+    }
+
+    @Override
+    public UserResponse findAll() {
+
+        List<UserEntity> findAll = userRepo.findAll();
+        if (findAll.isEmpty()) {
+            return new UserResponse(ResourceBundleConstant.USR_003, SystemConstant.STATUS_CODE_BAD_REQUEST, getMessageBundle(ResourceBundleConstant.USR_003));
+        }
+        return new UserResponse(ResourceBundleConstant.USR_004, SystemConstant.STATUS_CODE_SUCCESS, getMessageBundle(ResourceBundleConstant.USR_004), findAll);
+    }
+
+    @Override
+    public UserResponse update(UpdateUserRequest updateUserRequest) {
+        Optional<UserEntity> findInfo = userRepo.findById(updateUserRequest.getId());
+        if (findInfo.isPresent()) {
+            try {
+                UserEntity userUpdate = findInfo.get();
+                userUpdate.setUserName(updateUserRequest.getUserName());
+                userUpdate.setDescription(updateUserRequest.getDescription());
+                userRepo.save(userUpdate);
+                return new UserResponse(ResourceBundleConstant.USR_009, SystemConstant.STATUS_CODE_SUCCESS, getMessageBundle(ResourceBundleConstant.USR_009));
+            } catch (Exception e) {
+                return new UserResponse(ResourceBundleConstant.USR_010, SystemConstant.STATUS_CODE_BAD_REQUEST, getMessageBundle(ResourceBundleConstant.USR_010));
+            }
+        }
+        return new UserResponse(ResourceBundleConstant.USR_010, SystemConstant.STATUS_CODE_BAD_REQUEST, getMessageBundle(ResourceBundleConstant.USR_010));
+    }
 }

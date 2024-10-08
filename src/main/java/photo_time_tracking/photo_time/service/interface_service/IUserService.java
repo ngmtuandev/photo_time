@@ -1,9 +1,13 @@
 package photo_time_tracking.photo_time.service.interface_service;
 
+import photo_time_tracking.photo_time.dto.IdDTO;
 import photo_time_tracking.photo_time.dto.request.user.LoginRequest;
 import photo_time_tracking.photo_time.dto.request.user.RegisterRequest;
+import photo_time_tracking.photo_time.dto.request.user.UpdateUserRequest;
 import photo_time_tracking.photo_time.dto.response.user.UserResponse;
 import photo_time_tracking.photo_time.entity.UserEntity;
+
+import java.util.UUID;
 
 public interface IUserService {
 
@@ -15,4 +19,9 @@ public interface IUserService {
 
     UserResponse login(LoginRequest requestLogin);
 
+    UserResponse getInfo(UUID idUser);
+
+    UserResponse findAll();
+
+    UserResponse update(UpdateUserRequest updateUserRequest);
 }

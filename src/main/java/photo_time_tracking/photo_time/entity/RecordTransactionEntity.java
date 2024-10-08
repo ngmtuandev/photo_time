@@ -32,6 +32,17 @@ public class RecordTransactionEntity extends BaseEntity {
     @JoinColumn(name = "store_id", referencedColumnName = "id")
     private StoreEntity store;
 
+    @ManyToOne
+    @JoinColumn(name = "solution_id", referencedColumnName = "id", nullable = true)
+    private SolutionEntity solution;
+
+    @ManyToOne
+    @JoinColumn(name = "error_id", referencedColumnName = "id", nullable = true)
+    private ErrorEntity error;
+
+
+    // Getter
+    // TODO: FIX LOMBOK AUTO CREATE CONTRUCTOR
     public ETypeTransaction getTypeTransaction() {
         return typeTransaction;
     }
@@ -49,9 +60,20 @@ public class RecordTransactionEntity extends BaseEntity {
         return store;
     }
 
+    public SolutionEntity getSolution() {
+        return solution;
+    }
+
     public UserEntity getUser() {
         return user;
     }
+
+    public ErrorEntity getError() {
+        return error;
+    }
+
+    // Setter
+    // TODO: FIX LOMBOK AUTO CREATE CONTRUCTOR, GETTER, SETTER
 
     public void setImageEvident(String imageEvident) {
         this.imageEvident = imageEvident;
@@ -71,5 +93,13 @@ public class RecordTransactionEntity extends BaseEntity {
 
     public void setStore(StoreEntity store) {
         this.store = store;
+    }
+
+    public void setSolution(SolutionEntity solution) {
+        this.solution = solution;
+    }
+
+    public void setError(ErrorEntity error) {
+        this.error = error;
     }
 }
