@@ -45,6 +45,9 @@ public class ResourceBundleConstant {
     public static final String SOLUTION_006 = "SOLUTION_006";
     public static final String SOLUTION_007 = "SOLUTION_007";
     public static final String SOLUTION_008 = "SOLUTION_008";
+    public static final String SOLUTION_009 = "SOLUTION_009";
+    public static final String SOLUTION_010 = "SOLUTION_010";
+    public static final String SOLUTION_011 = "SOLUTION_011";
 
     // Error
     public static final String ERROR_001 = "ERROR_001";
