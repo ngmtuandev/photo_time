@@ -1,10 +1,11 @@
 package photo_time_tracking.photo_time.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import photo_time_tracking.photo_time.enums.ERole;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,7 +23,8 @@ public class RoleEntity extends BaseEntity {
     private ERole roleName;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<UserEntity> users;
+    @JsonIgnore
+    private List<UserEntity> users;
 
     public ERole getRoleName() {
         return this.roleName;

@@ -35,6 +35,8 @@ public class WebSecurityConfig {
     private static final String[] apiDoc = {
             SystemConstant.API + SystemConstant.VERSION_1 + SystemConstant.API_PUBLIC + SystemConstant.API_USER + SystemConstant.API_ALL,
             SystemConstant.API + SystemConstant.VERSION_1 + SystemConstant.API_PUBLIC + SystemConstant.API_ALL,
+            // TEMPO
+            SystemConstant.API + SystemConstant.VERSION_1 + SystemConstant.API_ADMIN + SystemConstant.API_ALL,
             "/swagger-ui/**",
             "/swagger-ui.html"
     };

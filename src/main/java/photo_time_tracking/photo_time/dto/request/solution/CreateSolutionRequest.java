@@ -1,6 +1,4 @@
 package photo_time_tracking.photo_time.dto.request.solution;
-
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data

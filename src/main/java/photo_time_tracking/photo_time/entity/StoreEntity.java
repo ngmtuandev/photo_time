@@ -1,14 +1,14 @@
 package photo_time_tracking.photo_time.entity;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "users")
 @Table(name = "store")
 @Data
 @Entity
@@ -23,20 +23,28 @@ public class StoreEntity extends BaseEntity{
     private String storeCode;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<UserEntity> users;
+    @JsonIgnore
+    private List<UserEntity> users;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<RecordTransactionEntity> records;
+    private List<RecordTransactionEntity> records;
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MachineEntity> machines;
 
     public String getStoreCode() {
         return storeCode;
+    }
+
+    public List<MachineEntity> getMachines() {
+        return machines;
     }
 
     public String getStoreName() {
         return storeName;
     }
 
-    public Set<RecordTransactionEntity> getRecords() {
+    public List<RecordTransactionEntity> getRecords() {
         return records;
     }
 
@@ -48,7 +56,11 @@ public class StoreEntity extends BaseEntity{
         this.storeName = storeName;
     }
 
-    public void setRecords(Set<RecordTransactionEntity> records) {
+    public void setRecords(List<RecordTransactionEntity> records) {
         this.records = records;
+    }
+
+    public void setMachines(List<MachineEntity> machines) {
+        this.machines = machines;
     }
 }

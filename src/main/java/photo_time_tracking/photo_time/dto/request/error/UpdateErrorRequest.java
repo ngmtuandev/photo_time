@@ -1,5 +1,4 @@
 package photo_time_tracking.photo_time.dto.request.error;
-
 import lombok.Data;
 
 import java.util.UUID;

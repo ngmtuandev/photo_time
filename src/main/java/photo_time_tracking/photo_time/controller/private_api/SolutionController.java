@@ -1,5 +1,4 @@
 package photo_time_tracking.photo_time.controller.private_api;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,15 +7,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import photo_time_tracking.photo_time.constant.SolutionConstant;
 import photo_time_tracking.photo_time.constant.SystemConstant;
-import photo_time_tracking.photo_time.dto.request.role.RoleRequest;
 import photo_time_tracking.photo_time.dto.request.solution.CreateSolutionRequest;
 import photo_time_tracking.photo_time.dto.request.solution.UpdateSolutionRequest;
-import photo_time_tracking.photo_time.dto.response.role.RoleResponse;
 import photo_time_tracking.photo_time.dto.response.solution.SolutionResponse;
-import photo_time_tracking.photo_time.service.implement_service.RoleServiceImpl;
 import photo_time_tracking.photo_time.service.implement_service.SolutionServiceImpl;
 
 import java.util.UUID;
+
 
 @RestController
 @RequestMapping(SystemConstant.API + SystemConstant.VERSION_1 + SystemConstant.API_ADMIN + SolutionConstant.API_SOLUTION)

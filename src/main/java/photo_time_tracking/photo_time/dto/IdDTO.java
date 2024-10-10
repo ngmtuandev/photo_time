@@ -1,5 +1,6 @@
 package photo_time_tracking.photo_time.dto;
 
+
 import java.util.UUID;
 
 public class IdDTO {
@@ -7,7 +8,6 @@ public class IdDTO {
     private UUID id;
 
     // TODO: FIX LONBOK AUTO GETTER SETTER
-
     public UUID getId() {
         return id;
     }

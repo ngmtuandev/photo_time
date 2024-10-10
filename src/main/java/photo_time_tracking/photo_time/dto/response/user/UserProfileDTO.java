@@ -1,11 +1,8 @@
 package photo_time_tracking.photo_time.dto.response.user;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -13,7 +10,7 @@ import java.util.UUID;
 @Builder
 public class UserProfileDTO {
 
-    private UUID id;
+    private String id;
 
     private String userName;
 

@@ -3,6 +3,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import photo_time_tracking.photo_time.constant.RoleConstant;
@@ -13,7 +14,6 @@ import photo_time_tracking.photo_time.service.implement_service.RoleServiceImpl;
 
 @RestController
 @RequestMapping(SystemConstant.API + SystemConstant.VERSION_1 + SystemConstant.API_ADMIN + RoleConstant.API_ROLES)
-@Validated
 public class RoleController {
 
     @Autowired
@@ -21,12 +21,13 @@ public class RoleController {
 
     //TODO: FIX VALIDATE FIELD REQUEST
     @PostMapping()
-    public ResponseEntity<RoleResponse> createRole(@Valid @RequestBody RoleRequest createRoleInfo) {
+    public ResponseEntity<RoleResponse> createRole(@RequestBody RoleRequest createRoleInfo) {
         RoleResponse response = roleService.createRole(createRoleInfo);
         return  new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping()
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<RoleResponse> getRoles() {
         RoleResponse response = roleService.getAllRoles();
         return  new ResponseEntity<>(response, HttpStatus.OK);

@@ -16,8 +16,10 @@ import photo_time_tracking.photo_time.dto.request.user.RegisterRequest;
 import photo_time_tracking.photo_time.dto.request.user.UpdateUserRequest;
 import photo_time_tracking.photo_time.dto.response.user.UserResponse;
 import photo_time_tracking.photo_time.entity.RoleEntity;
+import photo_time_tracking.photo_time.entity.StoreEntity;
 import photo_time_tracking.photo_time.entity.UserEntity;
 import photo_time_tracking.photo_time.repositories.IRoleRepo;
+import photo_time_tracking.photo_time.repositories.IStoreRepo;
 import photo_time_tracking.photo_time.repositories.IUserRepo;
 import photo_time_tracking.photo_time.service.interface_service.IUserService;
 import photo_time_tracking.photo_time.utils.BaseAmenityUtil;
@@ -31,6 +33,8 @@ public class UserServiceImpl implements IUserService {
 
     private final IUserRepo userRepo;
 
+    private final IStoreRepo storeRepo;
+
     private final IRoleRepo roleRepo;
 
     private final BaseAmenityUtil baseAmenityUtil;
@@ -41,13 +45,14 @@ public class UserServiceImpl implements IUserService {
 
     private final JwtProvider jwtProvider;
 
-    public UserServiceImpl(IUserRepo userRepo, BaseAmenityUtil baseAmenityUtil, IRoleRepo roleRepo, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
+    public UserServiceImpl(IUserRepo userRepo, BaseAmenityUtil baseAmenityUtil, IRoleRepo roleRepo, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtProvider jwtProvider, IStoreRepo storeRepo) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.baseAmenityUtil = baseAmenityUtil;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtProvider = jwtProvider;
+        this.storeRepo = storeRepo;
     }
 
     private String getMessageBundle(String key) {
@@ -76,6 +81,16 @@ public class UserServiceImpl implements IUserService {
                 newUser.setStatus(request.getStatus());
                 newUser.setRole(findRole.get());
 
+                if (request.getStore() != null) {
+                    // Store
+                    Optional<StoreEntity> storeOpt = storeRepo.findById(request.getStore());
+                    if (storeOpt.isPresent()) {
+                        newUser.setStore(storeOpt.get());
+                    } else {
+                        return new UserResponse(ResourceBundleConstant.USR_002, SystemConstant.STATUS_CODE_BAD_REQUEST, getMessageBundle("Store not found"));
+                    }
+                }
+
                 // password
                 String encodedPassword = passwordEncoder.encode(request.getPassword());
                 newUser.setPassword(encodedPassword);
@@ -85,12 +100,14 @@ public class UserServiceImpl implements IUserService {
                 return new UserResponse(ResourceBundleConstant.USR_001, SystemConstant.STATUS_CODE_SUCCESS, getMessageBundle(ResourceBundleConstant.USR_001));
             }
             catch (Exception e) {
+                System.out.println("TEST ERROR ==== >  " + e);
                 return new UserResponse(ResourceBundleConstant.USR_002, SystemConstant.STATUS_CODE_BAD_REQUEST, getMessageBundle(ResourceBundleConstant.USR_002));
             }
         }
         else {
             return new UserResponse(ResourceBundleConstant.USR_002, SystemConstant.STATUS_CODE_BAD_REQUEST, getMessageBundle(ResourceBundleConstant.USR_002));
         }
+
     }
 
     @Override

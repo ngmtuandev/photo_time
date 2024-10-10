@@ -1,8 +1,9 @@
 package photo_time_tracking.photo_time.dto.request.user;
-
 import lombok.Data;
+import photo_time_tracking.photo_time.enums.ERole;
 
 import java.util.UUID;
+
 
 @Data
 public class RegisterRequest {
@@ -17,8 +18,14 @@ public class RegisterRequest {
 
     private UUID role;
 
+    private UUID store;
+
     public UUID getRole() {
         return role;
+    }
+
+    public UUID getStore() {
+        return store;
     }
 
     public String getDescription() {

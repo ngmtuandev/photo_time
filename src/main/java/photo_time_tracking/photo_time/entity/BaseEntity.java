@@ -6,11 +6,14 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import java.sql.Types;
 import java.util.Date;
 import java.util.UUID;
 
@@ -29,8 +32,9 @@ import java.util.UUID;
 public class BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
+    @JdbcTypeCode(Types.VARCHAR)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @CreatedDate
@@ -43,4 +47,8 @@ public class BaseEntity {
     @Column(name = "is_delete", nullable = true)
     @ColumnDefault("false")
     private boolean isDelete;
+
+    public UUID getId() {
+        return id;
+    }
 }

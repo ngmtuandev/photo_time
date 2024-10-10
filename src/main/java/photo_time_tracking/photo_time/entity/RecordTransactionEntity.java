@@ -1,13 +1,17 @@
 package photo_time_tracking.photo_time.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import photo_time_tracking.photo_time.enums.ETypeTransaction;
+
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"user", "store", "solution", "error"})
 @Table(name = "record_transaction")
 @Data
 @Entity
@@ -15,7 +19,7 @@ import photo_time_tracking.photo_time.enums.ETypeTransaction;
 // TODO: FIX LOMBOK NOT CAN CREATE BUILDER, GETTER, SETTER (CONSTRUCTOR...)
 public class RecordTransactionEntity extends BaseEntity {
 
-    @Column(name = "store_name", nullable = false)
+    @Column(name = "type_transaction", nullable = false)
     private ETypeTransaction typeTransaction;
 
     @Column(name = "is_success", nullable = false)
@@ -24,22 +28,33 @@ public class RecordTransactionEntity extends BaseEntity {
     @Column(name = "image_evident", nullable = false)
     private String imageEvident;
 
-    @OneToOne
+    @Column(name = "money", nullable = false)
+    private Number money;
+
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
     private UserEntity user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", referencedColumnName = "id")
+    @JsonIgnore
     private StoreEntity store;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "solution_id", referencedColumnName = "id", nullable = true)
+    @JsonIgnore
     private SolutionEntity solution;
 
-    @ManyToOne
-    @JoinColumn(name = "error_id", referencedColumnName = "id", nullable = true)
-    private ErrorEntity error;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "result_id", referencedColumnName = "id", nullable = true)
+    @JsonIgnore
+    private ResultEntity result;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "machine_id", referencedColumnName = "id")
+    @JsonIgnore
+    private MachineEntity machine; // Record liên kết với một Machine
 
     // Getter
     // TODO: FIX LOMBOK AUTO CREATE CONTRUCTOR
@@ -68,8 +83,17 @@ public class RecordTransactionEntity extends BaseEntity {
         return user;
     }
 
-    public ErrorEntity getError() {
-        return error;
+    public ResultEntity getResult() {
+        return result;
+    }
+
+    public Number getMoney() {
+        return money;
+    }
+
+    @Override
+    public UUID getId() {
+        return super.getId();
     }
 
     // Setter
@@ -99,7 +123,19 @@ public class RecordTransactionEntity extends BaseEntity {
         this.solution = solution;
     }
 
-    public void setError(ErrorEntity error) {
-        this.error = error;
+    public MachineEntity getMachine() {
+        return machine;
+    }
+
+    public void setMachine(MachineEntity machine) {
+        this.machine = machine;
+    }
+
+    public void setMoney(Number money) {
+        this.money = money;
+    }
+
+    public void setResult(ResultEntity result) {
+        this.result = result;
     }
 }

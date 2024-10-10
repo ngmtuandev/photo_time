@@ -4,14 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"role", "store"})
 @Table(name = "user")
 @Data
 @Entity
 public class UserEntity extends BaseEntity {
+
     @Column(name = "user_name", unique = true, nullable = false)
     private String userName;
 
@@ -33,8 +37,9 @@ public class UserEntity extends BaseEntity {
     @JoinColumn(name = "store_id", referencedColumnName = "id")
     private StoreEntity store;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private RecordTransactionEntity recordTransaction;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<RecordTransactionEntity> recordTransactions;
 
     public RoleEntity getRole() {
         return this.role;
@@ -52,8 +57,8 @@ public class UserEntity extends BaseEntity {
         return this.description;
     }
 
-    public RecordTransactionEntity getRecordTransaction() {
-        return recordTransaction;
+    public List<RecordTransactionEntity> getRecordTransactions() {
+        return recordTransactions;
     }
 
     public Boolean getStatus() {
@@ -70,8 +75,8 @@ public class UserEntity extends BaseEntity {
         this.description = description;
     }
 
-    public void setRecordTransaction(RecordTransactionEntity recordTransaction) {
-        this.recordTransaction = recordTransaction;
+    public void setRecordTransactions(List<RecordTransactionEntity> recordTransactions) {
+        this.recordTransactions = recordTransactions;
     }
 
     public void setPassword(String password) {

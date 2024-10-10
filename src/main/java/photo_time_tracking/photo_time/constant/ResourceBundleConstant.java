@@ -73,5 +73,29 @@ public class ResourceBundleConstant {
     public static final String RCTRANS_007 = "RCTRANS_007";
     public static final String RCTRANS_008 = "RCTRANS_008";
     public static final String RCTRANS_009 = "RCTRANS_009";
+    public static final String RCTRANS_010 = "RCTRANS_010";
+    public static final String RCTRANS_011 = "RCTRANS_011";
+    public static final String RCTRANS_012 = "RCTRANS_012";
+    public static final String RCTRANS_013 = "RCTRANS_013";
+
+    // Result
+    public static final String RESULT_001 = "RESULT_001";
+    public static final String RESULT_002 = "RESULT_002";
+    public static final String RESULT_003 = "RESULT_003";
+    public static final String RESULT_004 = "RESULT_004";
+    public static final String RESULT_005 = "RESULT_005";
+    public static final String RESULT_006 = "RESULT_006";
+    public static final String RESULT_007 = "RESULT_007";
+    public static final String RESULT_008 = "RESULT_008";
+    public static final String RESULT_009 = "RESULT_009";
+
+    // Machine
+    public static final String MACHINE_001 = "MACHINE_001";
+    public static final String MACHINE_002 = "MACHINE_002";
+    public static final String MACHINE_003 = "MACHINE_003";
+    public static final String MACHINE_004 = "MACHINE_004";
+    public static final String MACHINE_005 = "MACHINE_005";
+    public static final String MACHINE_006 = "MACHINE_006";
+
 
 }
